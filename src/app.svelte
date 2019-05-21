@@ -17,7 +17,7 @@ reqJSON.get('/api/item/:id', 1)
     hello: 'world',
     date: new Date()
   }),
-});`
+});`,
   },
   {
     title: 'Shorthand methods',
@@ -48,8 +48,8 @@ XHRMock.post('/api/item/1', (req, res) => {
     .body(JSON.stringify({
       updateAt: new Date()
     }));
-});`
-  }
+});`,
+  },
 ];
 </script>
 

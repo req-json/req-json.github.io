@@ -6,7 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {
   beforeUpdate,
-  afterUpdate
+  afterUpdate,
 } from 'svelte';
 
 export let log;
@@ -15,8 +15,8 @@ const levels = {
   log: 'secondary',
   info: 'info',
   warn: 'warning',
-  error: 'danger'
-}
+  error: 'danger',
+};
 let logs = [];
 $: log && (logs = logs.concat({
   t: ts('HH:mm:ss.ms'),
@@ -26,14 +26,14 @@ $: log && (logs = logs.concat({
 
 $: console.log(log);
 
-let height = 160;
+const height = 160;
 let ul;
 let autoscroll;
 beforeUpdate(() => {
-	autoscroll = ul && (ul.offsetHeight + ul.scrollTop) > (ul.scrollHeight - height);
+  autoscroll = ul && (ul.offsetHeight + ul.scrollTop) > (ul.scrollHeight - height);
 });
 afterUpdate(() => {
-	autoscroll && ul.scrollTo(0, ul.scrollHeight);
+  autoscroll && ul.scrollTo(0, ul.scrollHeight);
 });
 </script>
 

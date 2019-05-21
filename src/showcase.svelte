@@ -14,7 +14,7 @@ for (const level in console) {
   cons[level] = (...args) => {
     log = {
       level,
-      args
+      args,
     };
   };
 }

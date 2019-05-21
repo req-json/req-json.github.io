@@ -1,6 +1,7 @@
 import svelte from 'rollup-plugin-svelte';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
+// import babel from 'rollup-plugin-babel';
 // import { terser } from 'rollup-plugin-terser';
 
 const production = !process.env.ROLLUP_WATCH;
@@ -8,7 +9,7 @@ const production = !process.env.ROLLUP_WATCH;
 export default {
   input: 'src/index.js',
   output: {
-    sourcemap: true,
+    sourcemap: production,
     format: 'iife',
     name: 'app',
     file: 'public/bundle.js',
@@ -35,5 +36,8 @@ export default {
     // If we're building for production (npm run build
     // instead of npm run dev), minify
     // production && terser(),
+    // production && babel({
+    //   extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', '.svelte'],
+    // }),
   ],
 };
