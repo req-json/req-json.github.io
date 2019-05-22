@@ -1,7 +1,8 @@
 <script>
-import babel from '@babel/standalone';
 import Codemirror from './codemirror.svelte';
 import Console from './console.svelte';
+
+import babel from './babel';
 
 export let title;
 export let description;
@@ -22,10 +23,7 @@ for (const level in console) {
 function run() {
   (new Function(
     'console',
-    babel.transform(
-      `XHRMock.reset();${mock};(async()=>{try{${code}}catch(e){console.error(e.name+': '+e.message)}})()`,
-      { presets: ['es2017', 'es2016', 'es2015'] },
-    ).code,
+    babel(`XHRMock.reset();${mock};(async()=>{try{${code}}catch(e){console.error(e.name+': '+e.message)}})()`),
   ))(cons);
 }
 </script>

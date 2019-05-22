@@ -1,12 +1,13 @@
 <script>
+/* global zenscroll */
 import ts from 'time-stamp';
 import Fa from 'fa-svelte';
 import {
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
 import {
-  beforeUpdate,
-  afterUpdate,
+  onMount,
+  tick,
 } from 'svelte';
 
 export let log;
@@ -17,37 +18,69 @@ const levels = {
   warn: 'warning',
   error: 'danger',
 };
-let logs = [];
-$: log && (logs = logs.concat({
-  t: ts('HH:mm:ss.ms'),
-  level: levels[log.level],
-  str: log.args.map(l => JSON.stringify(l, null, 2)).join(' '),
-}));
 
-const height = 160;
 let ul;
-let autoscroll;
-beforeUpdate(() => {
-  try {
-    autoscroll = ul && (ul.offsetHeight + ul.scrollTop) > (ul.scrollHeight - height);
-  } catch (e) { e; }
+let scroll;
+onMount(() => {
+  scroll = zenscroll.createScroller(ul);
 });
-afterUpdate(() => {
-  try {
-    autoscroll && ul.scrollTo(0, ul.scrollHeight);
-  } catch (e) { e; }
-});
+
+let logs = [];
+function scrollToLog(i) {
+  tick().then(() => {
+    scroll.center(document.getElementById(`log-${logs[i].t}`));
+  });
+}
+$: if (log) {
+  logs = logs.concat({
+    t: ts('HH:mm:ss.ms'),
+    level: levels[log.level],
+    str: log.args.map(l => JSON.stringify(l, null, 2)).join(' '),
+    collapse: true,
+  });
+  log = undefined;
+  scrollToLog(logs.length - 1);
+}
+
+function collapse(i) {
+  logs[i].collapse = !logs[i].collapse;
+  scrollToLog(i);
+}
 </script>
 
 <ul
   bind:this={ul}
-  style={`max-height: ${height}px`}
   class="list-group list-group-flush overflow-auto">
-  {#each logs as log (log.t)}
-    <li class="list-group-item p-1">
-      <small class={`text-${log.level}`}><Fa icon={faChevronRight}></Fa></small>
+  {#each logs as log, i (log.t)}
+    <li
+      id={`log-${log.t}`}
+      class:open={!log.collapse}
+      class="list-group-item p-1"
+      on:click={() => collapse(i)}>
+      <small class={`text-${log.level}`}>
+        <Fa icon={faChevronRight}></Fa>
+      </small>
       <span class={`text-${log.level}`}>{log.t}</span>
-      {log.str}
+      {#if log.collapse}
+        {log.str}
+      {:else}
+        <pre>{log.str}</pre>
+      {/if}
     </li>
   {/each}
 </ul>
+
+<style>
+ul {
+  position: relative;
+  max-height: 160px;
+}
+
+li {
+  cursor: pointer;
+}
+
+li.open :global(svg) {
+  transform: rotate(90deg);
+}
+</style>
