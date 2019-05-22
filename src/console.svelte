@@ -24,16 +24,18 @@ $: log && (logs = logs.concat({
   str: log.args.map(l => JSON.stringify(l, null, 2)).join(' '),
 }));
 
-$: console.log(log);
-
 const height = 160;
 let ul;
 let autoscroll;
 beforeUpdate(() => {
-  autoscroll = ul && (ul.offsetHeight + ul.scrollTop) > (ul.scrollHeight - height);
+  try {
+    autoscroll = ul && (ul.offsetHeight + ul.scrollTop) > (ul.scrollHeight - height);
+  } catch (e) { e; }
 });
 afterUpdate(() => {
-  autoscroll && ul.scrollTo(0, ul.scrollHeight);
+  try {
+    autoscroll && ul.scrollTo(0, ul.scrollHeight);
+  } catch (e) { e; }
 });
 </script>
 

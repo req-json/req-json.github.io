@@ -1,5 +1,5 @@
 <script>
-/* global Babel */
+import babel from '@babel/standalone';
 import Codemirror from './codemirror.svelte';
 import Console from './console.svelte';
 
@@ -22,8 +22,8 @@ for (const level in console) {
 function run() {
   (new Function(
     'console',
-    Babel.transform(
-      `XHRMock.reset();${mock};(async()=>{${code}})()`,
+    babel.transform(
+      `XHRMock.reset();${mock};(async()=>{try{${code}}catch(e){console.error(e.name+': '+e.message)}})()`,
       { presets: ['es2017', 'es2016', 'es2015'] },
     ).code,
   ))(cons);

@@ -1,7 +1,8 @@
 import svelte from 'rollup-plugin-svelte';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-// import babel from 'rollup-plugin-babel';
+import livereload from 'rollup-plugin-livereload';
+import buble from 'rollup-plugin-buble';
 // import { terser } from 'rollup-plugin-terser';
 
 const production = !process.env.ROLLUP_WATCH;
@@ -23,6 +24,7 @@ export default {
       css: (css) => {
         css.write('public/bundle.css');
       },
+      legacy: true,
     }),
 
     // If you have external dependencies installed from
@@ -30,14 +32,18 @@ export default {
     // some cases you'll need additional configuration —
     // consult the documentation for details:
     // https://github.com/rollup/rollup-plugin-commonjs
-    resolve(),
+    resolve({
+      mainFields: ['svelte', 'module', 'main'],
+    }),
     commonjs(),
+
+    // Watch the `public` directory and refresh the
+    // browser on changes when not in production
+    production || livereload('public'),
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify
+    production && buble(),
     // production && terser(),
-    // production && babel({
-    //   extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', '.svelte'],
-    // }),
   ],
 };
