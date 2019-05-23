@@ -29,7 +29,6 @@ function run() {
       transfrom(`XHRMock.reset();${LF}${mock}${LF};(async()=>{${LF}${code}${LF}})().catch(e=>console.error(e.name+': '+e.message))`),
     ))(cons);
   } catch (e) {
-    cons.error(e.name, e.message);
     if (typeof Babel === 'undefined') {
       loadScripts('https://cdn.jsdelivr.net/gh/req-json/req-json.github.io@v0.0.1/public/babel.js')
         .then(() => {
@@ -39,6 +38,8 @@ function run() {
           ).code;
           run();
         });
+    } else {
+      cons.error(e.name, e.message);
     }
   }
 }

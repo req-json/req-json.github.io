@@ -4,7 +4,6 @@
 import {
   onMount,
   onDestroy,
-  tick,
 } from 'svelte';
 
 export let value;
@@ -13,16 +12,14 @@ let container;
 
 let cm;
 onMount(() => {
-  tick().then(() => {
-    cm = CodeMirror(container, {
-      value,
-      mode: 'javascript',
-      lineNumbers: true,
-      theme: 'monokai',
-    });
-    cm.on('blur', () => {
-      value = cm.getValue();
-    });
+  cm = CodeMirror(container, {
+    value,
+    mode: 'javascript',
+    lineNumbers: true,
+    theme: 'monokai',
+  });
+  cm.on('blur', () => {
+    value = cm.getValue();
   });
 });
 
