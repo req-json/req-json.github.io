@@ -19,18 +19,17 @@ const levels = {
   error: 'danger',
 };
 
-let ul;
 let scroll;
-onMount(() => {
-  scroll = zenscroll.createScroller(ul);
-});
-
+let ul;
+const li = [];
 let logs = [];
+
 function scrollToLog(i) {
   tick().then(() => {
-    scroll.center(document.getElementById(`log-${logs[i].t}`));
+    scroll.intoView(li[i]);
   });
 }
+
 $: if (log) {
   logs = logs.concat({
     t: ts('HH:mm:ss.ms'),
@@ -42,10 +41,9 @@ $: if (log) {
   scrollToLog(logs.length - 1);
 }
 
-function collapse(i) {
-  logs[i].collapse = !logs[i].collapse;
-  scrollToLog(i);
-}
+onMount(() => {
+  scroll = zenscroll.createScroller(ul);
+});
 </script>
 
 <ul
@@ -53,10 +51,10 @@ function collapse(i) {
   class="list-group list-group-flush overflow-auto">
   {#each logs as log, i (log.t)}
     <li
-      id={`log-${log.t}`}
+      bind:this={li[i]}
       class:open={!log.collapse}
       class="list-group-item p-1"
-      on:click={() => collapse(i)}>
+      on:click={() => scrollToLog(i, log.collapse = !log.collapse)}>
       <small class={`text-${log.level}`}>
         <Fa icon={faChevronRight}></Fa>
       </small>
