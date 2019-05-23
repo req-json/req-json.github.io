@@ -28,12 +28,13 @@ function run() {
       transfrom(`XHRMock.reset();${mock};(async()=>{try{${code}}catch(e){console.error(e.name+': '+e.message)}})()`),
     ))(cons);
   } catch (e) {
+    console.error(e);
     if (typeof Babel === 'undefined') {
       loadScripts('https://cdn.jsdelivr.net/gh/req-json/req-json.github.io@v0.0.1/public/babel.js')
         .then(() => {
           transfrom = c => Babel.transform(
             c,
-            { presets: ['es2015', 'stage-0', 'typescript'] },
+            { presets: ['es2015', 'es2016', 'es2017'] },
           ).code;
           run();
         });
