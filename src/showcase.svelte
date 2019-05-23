@@ -19,16 +19,17 @@ for (const level in console) {
   };
 }
 
+const LF = '\n\n\n\n\n';
 let transfrom = c => c;
 
 function run() {
   try {
     (new Function(
       'console',
-      transfrom(`XHRMock.reset();${mock};(async()=>{try{${code}}catch(e){console.error(e.name+': '+e.message)}})()`),
+      transfrom(`XHRMock.reset();${LF}${mock}${LF};(async()=>{${LF}${code}${LF}})().catch(e=>console.error(e.name+': '+e.message))`),
     ))(cons);
   } catch (e) {
-    console.error(e);
+    cons.error(e.name, e.message);
     if (typeof Babel === 'undefined') {
       loadScripts('https://cdn.jsdelivr.net/gh/req-json/req-json.github.io@v0.0.1/public/babel.js')
         .then(() => {

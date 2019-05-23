@@ -34,7 +34,7 @@ $: if (log) {
   logs = logs.concat({
     t: ts('HH:mm:ss.ms'),
     level: levels[log.level],
-    str: log.args.map(l => JSON.stringify(l, null, 2)).join(' '),
+    str: log.args.map(l => (typeof l === 'string' ? l : JSON.stringify(l, null, 2))).join(' '),
     collapse: true,
   });
   log = undefined;
