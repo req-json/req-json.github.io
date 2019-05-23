@@ -39,7 +39,7 @@ function run() {
           run();
         });
     } else {
-      cons.error(e.name, e.message);
+      cons.error(`${e.name}: ${e.message}`);
     }
   }
 }
