@@ -3,17 +3,16 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import buble from 'rollup-plugin-buble';
-// import { terser } from 'rollup-plugin-terser';
 
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
   input: 'src/index.js',
   output: {
-    sourcemap: production,
-    format: 'esm',
+    sourcemap: !production,
+    format: 'iife',
     name: 'app',
-    dir: 'public',
+    file: 'public/index.js',
   },
   plugins: [
     svelte({
@@ -42,8 +41,7 @@ export default {
     production || livereload('public'),
 
     // If we're building for production (npm run build
-    // instead of npm run dev), minify
+    // instead of npm run dev)
     production && buble(),
-    // production && terser(),
   ],
 };
