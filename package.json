@@ -14,6 +14,7 @@
   "scripts": {
     "prebuild": "eslint --fix *.js src/*.js src/*.svelte",
     "build": "rollup -c",
+    "build:babel": "rollup -c rollup-babel.config.js",
     "autobuild": "rollup -c -w",
     "dev": "run-p autobuild start:dev",
     "start": "sirv",
@@ -23,12 +24,12 @@
     "@babel/standalone": "^7.4.5",
     "@fortawesome/free-solid-svg-icons": "^5.8.2",
     "fa-svelte": "^3.0.0",
-    "svelte": "^3.4.1",
+    "svelte": "^3.4.2",
     "time-stamp": "^2.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.7.0",
     "eslint-config-airbnb-base": "^13.0.0",
@@ -42,6 +43,7 @@
     "rollup-plugin-livereload": "^1.0.0",
     "rollup-plugin-node-resolve": "^5.0.0",
     "rollup-plugin-svelte": "^5.0.3",
+    "rollup-plugin-uglify": "^6.0.2",
     "sirv-cli": "^0.4.2"
   }
 }
