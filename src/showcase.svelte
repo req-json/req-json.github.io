@@ -1,7 +1,8 @@
 <script>
-/* global loadScripts Babel */
 import Codemirror from './codemirror.svelte';
 import Console from './console.svelte';
+
+import runCode from './run';
 
 export let title;
 export let description;
@@ -20,28 +21,8 @@ for (const level in console) {
 }
 
 const LF = '\n\n\n\n\n';
-let transfrom = c => c;
-
 function run() {
-  try {
-    (new Function(
-      'console',
-      transfrom(`XHRMock.reset();${LF}${mock}${LF};(async()=>{${LF}${code}${LF}})().catch(e=>console.error(e.name+': '+e.message))`),
-    ))(cons);
-  } catch (e) {
-    if (typeof Babel === 'undefined') {
-      loadScripts('https://cdn.jsdelivr.net/gh/req-json/req-json.github.io@v0.0.1/public/babel.js')
-        .then(() => {
-          transfrom = c => Babel.transform(
-            c,
-            { presets: ['es2015', 'es2016', 'es2017'] },
-          ).code;
-          run();
-        });
-    } else {
-      cons.error(`${e.name}: ${e.message}`);
-    }
-  }
+  runCode(`XHRMock.reset();${LF}${mock}${LF};(async()=>{${LF}${code}${LF}})().catch(e=>console.error(e.name+': '+e.message))`, cons);
 }
 </script>
 
