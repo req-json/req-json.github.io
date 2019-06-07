@@ -31,7 +31,7 @@ onDestroy(() => {
 <div bind:this={container} class="codemirror rounded overflow-hidden"></div>
 
 <style>
-.codemirror .CodeMirror {
-  height: 200px;
+.codemirror :global(.CodeMirror) {
+  height: 320px;
 }
 </style>

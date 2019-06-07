@@ -13,6 +13,7 @@ import {
   tick,
 } from 'svelte';
 
+export let clear;
 export let log;
 
 const colors = {
@@ -50,6 +51,10 @@ $: if (log) {
   scrollToLog(logs.length - 1);
 }
 
+$: if (clear) {
+  logs = [];
+}
+
 onMount(() => {
   scroll = zenscroll.createScroller(ul);
 });
@@ -64,7 +69,7 @@ onMount(() => {
       class={`list-group-item p-1 text-${colors[log.level]}`}
       on:click={() => scrollToLog(i, log.collapse = !log.collapse)}>
       <small>
-        <Fa icon={icons[log.level]} rotate={log.collapse ? 0 : 90}></Fa>
+        <Fa icon={icons[log.level]} rotate={log.collapse ? 0 : 90}/>
       </small>
       {log.t}
       {#if log.collapse}

@@ -1,4 +1,10 @@
 <script>
+import Fa from 'svelte-fa';
+import {
+  faChevronCircleRight,
+  faTimesCircle,
+} from '@fortawesome/free-solid-svg-icons';
+
 import Codemirror from './codemirror.svelte';
 import Console from './console.svelte';
 
@@ -9,6 +15,7 @@ export let description = '';
 export let code = '';
 export let mock = '';
 
+let clear = 0;
 let log;
 const cons = {};
 for (const level in console) {
@@ -42,7 +49,12 @@ function run() {
     </div>
   </div>
   <div class="text-right px-1 py-2">
-    <button class="btn btn-outline-primary btn-sm" on:click={run}>RUN</button>
+    <button class="btn btn-outline-secondary btn-sm" on:click={() => clear++}>
+      <Fa icon={faTimesCircle}/> CLEAR
+    </button>
+    <button class="btn btn-outline-primary btn-sm" on:click={run}>
+      RUN CODE <Fa icon={faChevronCircleRight}/>
+    </button>
   </div>
-  <Console {log}></Console>
+  <Console {log} {clear}></Console>
 </div>
