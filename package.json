@@ -23,6 +23,7 @@
   "dependencies": {
     "@babel/standalone": "^7.4.5",
     "@fortawesome/free-solid-svg-icons": "^5.8.2",
+    "req-json": "^2.2.0",
     "svelte": "^3.4.2",
     "svelte-fa": "^1.0.1",
     "time-stamp": "^2.2.0"

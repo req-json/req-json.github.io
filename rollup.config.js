@@ -13,7 +13,11 @@ export default {
     format: 'iife',
     name: 'app',
     file: 'public/index.js',
+    globals: {
+      'svelte-fa': 'SvelteFa',
+    },
   },
+  external: ['svelte-fa'],
   plugins: [
     svelte({
       // enable run-time checks when not in production
