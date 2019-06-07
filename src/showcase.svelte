@@ -4,10 +4,10 @@ import Console from './console.svelte';
 
 import runCode from './run';
 
-export let title;
-export let description;
-export let code;
-export let mock;
+export let title = '';
+export let description = '';
+export let code = '';
+export let mock = '';
 
 let log;
 const cons = {};

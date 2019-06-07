@@ -1,9 +1,12 @@
 <script>
 /* global zenscroll */
 import ts from 'time-stamp';
-import Fa from 'fa-svelte';
+import Fa from 'svelte-fa';
 import {
-  faChevronRight,
+  faChevronCircleRight,
+  faInfoCircle,
+  faExclamationCircle,
+  faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   onMount,
@@ -12,11 +15,17 @@ import {
 
 export let log;
 
-const levels = {
+const colors = {
   log: 'secondary',
   info: 'info',
   warn: 'warning',
   error: 'danger',
+};
+const icons = {
+  log: faChevronCircleRight,
+  info: faInfoCircle,
+  warn: faExclamationCircle,
+  error: faTimesCircle,
 };
 
 let scroll;
@@ -33,7 +42,7 @@ function scrollToLog(i) {
 $: if (log) {
   logs = logs.concat({
     t: ts('HH:mm:ss.ms'),
-    level: levels[log.level],
+    level: log.level,
     str: log.args.map(l => (typeof l === 'string' ? l : JSON.stringify(l, null, 2))).join(' '),
     collapse: true,
   });
@@ -52,13 +61,12 @@ onMount(() => {
   {#each logs as log, i (log.t)}
     <li
       bind:this={li[i]}
-      class:open={!log.collapse}
-      class="list-group-item p-1"
+      class={`list-group-item p-1 text-${colors[log.level]}`}
       on:click={() => scrollToLog(i, log.collapse = !log.collapse)}>
-      <small class={`text-${log.level}`}>
-        <Fa icon={faChevronRight}></Fa>
+      <small>
+        <Fa icon={icons[log.level]} rotate={log.collapse ? 0 : 90}></Fa>
       </small>
-      <span class={`text-${log.level}`}>{log.t}</span>
+      {log.t}
       {#if log.collapse}
         {log.str}
       {:else}
@@ -76,9 +84,5 @@ ul {
 
 li {
   cursor: pointer;
-}
-
-li.open :global(svg) {
-  transform: rotate(90deg);
 }
 </style>
