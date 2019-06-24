@@ -12,7 +12,7 @@
     "url": "https://github.com/req-json/req-json.github.io/issues"
   },
   "scripts": {
-    "prebuild": "eslint --fix *.js src/*.js src/*.svelte",
+    "prebuild": "eslint --fix *.js src/**/*.js src/**/*.svelte",
     "build": "rollup -c",
     "build:babel": "rollup -c rollup-babel.config.js",
     "autobuild": "rollup -c -w",
