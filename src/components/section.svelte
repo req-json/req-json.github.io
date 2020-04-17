@@ -2,7 +2,6 @@
 import Fa from 'svelte-fa';
 import {
   faChevronCircleRight,
-  faTimesCircle,
   faLink,
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -63,7 +62,7 @@ function run() {
 {#if mock}
   <div class="text-right px-1 py-2">
     <button class="btn btn-outline-secondary btn-sm" on:click={() => clear++}>
-      <Fa icon={faTimesCircle}/> CLEAR
+      CLEAR
     </button>
     <button class="btn btn-outline-primary btn-sm" on:click={run}>
       RUN CODE <Fa icon={faChevronCircleRight}/>

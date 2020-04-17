@@ -72,6 +72,7 @@ console.log('client post', res);`,
 XHRMock.post('/api/item/1', (req, res) => {
   console.info('server receive', JSON.parse(req.body()));
   return res
+    .status(200)
     .header('Content-Type', 'application/json')
     .body(JSON.stringify({
       updateAt: new Date(),
@@ -99,6 +100,7 @@ console.log('client post', res);`,
 XHRMock.post('/api/item/1', (req, res) => {
   console.info('server receive', JSON.parse(req.body()));
   return res
+    .status(200)
     .header('Content-Type', 'application/json')
     .body(JSON.stringify({
       updateAt: new Date(),
@@ -149,6 +151,7 @@ console.log(await reqJSON.get('/api/item/:id', 1, {
       mock: `XHRMock.get('/api/item/1', (req, res) =>
   req.header('Authorization') == 'abc'
     ? res
+      .status(200)
       .header('Content-Type', 'application/json')
       .body(JSON.stringify({
         updateAt: new Date(),
@@ -172,6 +175,7 @@ console.log(await resource.get(1));`,
       mock: `XHRMock.get('/api/item/1', (req, res) =>
   req.header('Authorization') == 'abc'
     ? res
+      .status(200)
       .header('Content-Type', 'application/json')
       .body(JSON.stringify({
         updateAt: new Date(),
@@ -196,7 +200,7 @@ reqJSON.use(async(context, next) => {
 
 await reqJSON.get('/api/item/:id', 1);`,
     mock: `XHRMock.get('/api/item/1', (req, res) => new Promise(resolve =>
-  setTimeout(() => resolve(res), 100)
+  setTimeout(() => resolve(res.status(200)), 500)
 ));`,
   },
   {
@@ -269,6 +273,7 @@ await reqJSON.post('/api/item/:id', 1);`,
       mock: `XHRMock.post('/api/item/1', (req, res) =>
   req.header('Authorization') == 'abc'
     ? res
+      .status(200)
       .header('Content-Type', 'application/json')
       .body(JSON.stringify({
         updateAt: new Date(),
